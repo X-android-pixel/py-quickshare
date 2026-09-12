@@ -1,51 +1,45 @@
 The project is divided into two parts:
 
-- **core_lib:** This is a Rust library that encompasses all the logic necessary for discovering, connecting to, and transferring files to QuickShare-compatible clients.
-- **app/main:** A Tauri application that utilizes core_lib to handle incoming requests and initiate outgoing ones.
+- **core_lib:** This is a Rust library with PyO3 bindings (`rqs_lib`) that encompasses all the logic necessary for discovering, connecting to, and transferring files to QuickShare-compatible clients.
+- **rquickshare_app / main.py:** A Python desktop application built with PySide 6 that utilizes `core_lib` (via PyO3) to handle incoming requests and initiate outgoing ones.
 
-How to build
+How to build and run
 --------------------------
 
-### core_lib
+### 1. Prerequisites
 
-Building the core_lib is straightforward because it is a basic Rust project.
+System dependencies required:
+- `protobuf-compiler`
+- `libdbus-1-dev`
+- `pkg-config`
+- `Python 3.10+`
 
-Install `protobuf-compiler` system package, and then simply run `cargo build` or `cargo build --release` from `core_lib` folder.
-
-### app/main
-
-The app/main is developed as a Tauri application. For package management, pnpm is recommended (though npm and others may also work, pnpm is preferred for this project).
-
-(all commands are run inside the `app/main` folder)
-
-First, install the necessary dependencies:
-
-```
-pnpm install
+On Ubuntu/Debian:
+```bash
+sudo apt-get install -y protobuf-compiler libdbus-1-dev pkg-config python3-pip
 ```
 
-- To run the debug version:
+### 2. Build Python Bindings (`core_lib`)
 
-```
-pnpm dev
-```
+Install Python build requirements (`PySide6`, `maturin`):
 
-- To build a release package (.deb & .AppImage & .rpm & .dmg (only on macos)):
-
-```
-pnpm build
+```bash
+pip install PySide6 maturin
 ```
 
-For more detailed information on building the app/main and understanding any potential limitations, it’s advised to consult the [Tauri documentation](https://v2.tauri.app/start).
+Build and install `rqs_lib` into your Python environment:
 
-### app/main
-
-Everything is the same as the app/main one, except the output of the build :)
-
-- To build a release package (.deb & .AppImage):
-
-```
-pnpm build
+```bash
+cd core_lib
+python3 -m maturin build --release
+pip install target/wheels/rqs_lib*.whl --force-reinstall
+cd ..
 ```
 
-For more detailed information on building the app/main and understanding any potential limitations, it’s advised to consult the [Tauri documentation](https://tauri.app/v1/guides/building/linux).
+### 3. Run Application
+
+Run the PySide 6 application via `main.py`:
+
+```bash
+python3 main.py
+```
