@@ -2,7 +2,7 @@
   <h1>rquickshare</h1>
 
   <p>
-    <strong>NearbyShare/QuickShare for Linux and MacOS</strong>
+    <strong>NearbyShare/QuickShare for Linux and MacOS (Python & PySide 6)</strong>
   </p>
   <p>
 

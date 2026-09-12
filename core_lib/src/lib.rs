@@ -26,6 +26,7 @@ pub mod channel;
 mod errors;
 mod hdl;
 mod manager;
+pub mod py_bindings;
 mod utils;
 
 pub use hdl::{EndpointInfo, OutboundPayload, State, Visibility};
